@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>缬香芸 · 智能纹样平台</title>
+    <style>
+        :root {
+            --primary-color: #8b5a2b;
+            --secondary-color: #d4a76a;
+            --accent-color: #e6c9a8;
+            --light-color: #f8f3eb;
+            --dark-color: #3a2611;
+            --text-color: #5a3921;
+            --border-color: #c9a87c;
+            --chinese-red: #c03a2b;
+            --indonesia-brown: #7a5230;
+            --border-radius: 8px;
+            --shadow: 0 6px 16px rgba(58, 38, 17, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Microsoft YaHei', 'Source Han Serif SC', serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(234, 224, 213, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(212, 167, 106, 0.1) 0%, transparent 20%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ========== 页面头部 ========== */
+        .page-header {
+            background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+            color: white;
+            padding: 60px 0 40px;
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid var(--secondary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '🌸';
+            font-size: 80px;
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            opacity: 0.2;
+        }
+
+        .page-header::after {
+            content: '🌿';
+            font-size: 60px;
+            position: absolute;
+            bottom: 20px;
+            left: 40px;
+            opacity: 0.2;
+        }
+
+        .page-title {
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, var(--secondary-color), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Source Han Serif SC', serif;
+            margin-bottom: 15px;
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: var(--accent-color);
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        /* ========== 导航按钮 ========== */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(139, 90, 43, 0.3);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .nav-button-icon {
+            font-size: 24px;
+        }
+
+        /* ========== 纹样展示区 ========== */
+        .gallery-section {
+            margin: 60px 0;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--dark-color);
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--chinese-red), var(--indonesia-brown));
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .pattern-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(58, 38, 17, 0.2);
+        }
+
+        .pattern-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--chinese-red), var(--indonesia-brown));
+        }
+
+        .pattern-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            background-color: var(--light-color);
+        }
+
+        .pattern-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+            padding: 10px;
+        }
+
+        .pattern-card:hover .pattern-image {
+            transform: scale(1.05);
+        }
+
+        .culture-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            z-index: 2;
+        }
+
+        .culture-chinese {
+            background-color: var(--chinese-red);
+        }
+
+        .culture-indonesia {
+            background-color: var(--indonesia-brown);
+        }
+
+        .pattern-info {
+            padding: 20px;
+        }
+
+        .pattern-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+            font-family: 'Source Han Serif SC', serif;
+            height: 50px;
+            overflow: hidden;
+        }
+
+        .pattern-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .pattern-type {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .pattern-meaning {
+            font-size: 14px;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            line-height: 1.6;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .pattern-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .pattern-tag {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* ========== 页脚 ========== */
+        footer {
+            background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-family: 'Source Han Serif SC', serif;
+        }
+
+        .footer-desc {
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .copyright {
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 167, 106, 0.3);
+            color: var(--accent-color);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 32px;
+            }
+
+            .page-subtitle {
+                font-size: 16px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-button {
+                width: 90%;
+                justify-content: center;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pattern-card {
+                margin: 0 auto;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面头部 -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title">缬香芸 · 智能纹样平台</h1>
+            <p class="page-subtitle">中国传统纹样与印尼穆斯林几何图案的创新融合</p>
+
+            <!-- 导航按钮 - 只保留智能组合匹配 -->
+            <div class="nav-buttons">
+                <a href="/combinations" class="nav-button">
+                    <span class="nav-button-icon">🧬</span>
+                    智能组合匹配
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 纹样展示区 -->
+    <div class="container">
+        <div class="gallery-section">
+            <h2 class="section-title">精选纹样展示</h2>
+            <div id="patterns-gallery" class="gallery-grid">
+                <!-- 纹样卡片将通过JavaScript动态加载 -->
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                    <p style="font-size: 16px; color: #8b5a2b;">正在加载纹样...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">缬香芸</div>
+                <p class="footer-desc">传承东方美学，融合传统纹样与中草药智慧，创造文化创新设计。</p>
+                <div class="copyright">
+                    <p>© 2023 缬香芸 · 智能纹样平台 | 传统与创新 · 东方美学数字传承</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 页面加载完成后加载纹样
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPatternsGallery();
+        });
+
+        // 加载纹样画廊
+        async function loadPatternsGallery() {
+            try {
+                console.log('开始加载精选纹样...');
+                const response = await fetch('/api/patterns');
+                const patterns = await response.json();
+
+                // 只显示前8个纹样作为精选
+                const featuredPatterns = patterns.slice(0, 8);
+
+                console.log('获取到精选纹样数据:', featuredPatterns);
+                const gallery = document.getElementById('patterns-gallery');
+                gallery.innerHTML = '';
+
+                featuredPatterns.forEach(pattern => {
+                    const card = document.createElement('div');
+                    card.className = 'pattern-card';
+
+                    // 构建图片URL
+                    const imageUrl = `/data/patterns/${encodeURIComponent(pattern.image)}`;
+
+                    // 文化标签
+                    const cultureClass = pattern.culture === 'chinese' ? 'culture-chinese' : 'culture-indonesia';
+                    const cultureText = pattern.culture === 'chinese' ? '🇨🇳 中国' : '🇮🇩 印尼';
+
+                    // 纹样标签（取前3个）
+                    const tags = pattern.style_tags ? pattern.style_tags.slice(0, 3) : [];
+
+                    card.innerHTML = `
+                        <div class="pattern-image-container">
+                            <span class="culture-badge ${cultureClass}">${cultureText}</span>
+                            <img src="${imageUrl}" alt="${pattern.name}" class="pattern-image"
+                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300/${pattern.culture === 'chinese' ? 'C03A2B' : '7A5230'}/FFFFFF?text=${encodeURIComponent(pattern.name.substring(0, 10))}'">
+                        </div>
+                        <div class="pattern-info">
+                            <h3 class="pattern-name">${pattern.name}</h3>
+                            <div class="pattern-meta">
+                                <span class="pattern-type">${pattern.type || '传统纹样'}</span>
+                            </div>
+                            <p class="pattern-meaning">${pattern.meaning || '传统纹样，寓意深远'}</p>
+                            <div class="pattern-tags">
+                                ${tags.map(tag => `<span class="pattern-tag">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+
+                    // 点击查看详情
+                    card.addEventListener('click', function() {
+                        showPatternDetail(pattern);
+                    });
+
+                    gallery.appendChild(card);
+                });
+
+                console.log('纹样加载完成');
+            } catch (error) {
+                console.error('加载纹样失败:', error);
+                document.getElementById('patterns-gallery').innerHTML =
+                    '<div style="grid-column: 1 / -1; text-align: center; padding: 40px;">' +
+                    '<p style="color: #c03a2b; font-size: 16px;">加载纹样失败，请检查服务器连接</p>' +
+                    '</div>';
+            }
+        }
+
+        // 显示纹样详情弹窗
+        function showPatternDetail(pattern) {
+            const imageUrl = `/data/patterns/${encodeURIComponent(pattern.image)}`;
+            const detailHTML = `
+                <div id="pattern-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 20px;">
+                    <div style="background: white; padding: 30px; border-radius: 12px; max-width: 800px; max-height: 90%; overflow-y: auto; width: 100%; border: 2px solid #c9a87c;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #e6c9a8; padding-bottom: 15px;">
+                            <h2 style="margin: 0; color: #3a2611; font-family: 'Source Han Serif SC', serif;">${pattern.name}</h2>
+                            <button onclick="document.getElementById('pattern-modal').remove()"
+                                    style="background: #c03a2b; color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;">关闭</button>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 30px;">
+                            <div style="flex: 1; min-width: 300px;">
+                                <img src="${imageUrl}" alt="${pattern.name}" style="width: 100%; height: auto; max-height: 400px; object-fit: contain; border-radius: 8px; border: 1px solid #c9a87c; padding: 10px; background: #f8f3eb;" />
+                            </div>
+                            <div style="flex: 1; min-width: 300px;">
+                                <h4 style="color: #8b5a2b; margin-bottom: 15px; font-family: 'Source Han Serif SC', serif;">纹样信息</h4>
+                                <p><strong>文化：</strong><span style="background: ${pattern.culture === 'chinese' ? '#c03a2b' : '#7a5230'}; color: white; padding: 2px 10px; border-radius: 12px; font-size: 12px;">${pattern.culture === 'chinese' ? '中国' : '印尼'}</span></p>
+                                <p><strong>类型：</strong>${pattern.type || '传统纹样'}</p>
+                                <p><strong>寓意：</strong>${pattern.meaning || '传统纹样，寓意深远'}</p>
+                                <p><strong>元素：</strong>${(pattern.elements || []).join('、')}</p>
+                                <p><strong>主要颜色：</strong>${(pattern.colors || []).join('、')}</p>
+                                <p><strong>风格标签：</strong>${(pattern.style_tags || []).join('、')}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // 移除现有的弹窗
+            const existingModal = document.getElementById('pattern-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            document.body.insertAdjacentHTML('beforeend', detailHTML);
+        }
+    </script>
+</body>
+</html>

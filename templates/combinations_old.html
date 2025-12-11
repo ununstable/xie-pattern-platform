@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能组合匹配 - 纹样库平台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .card-title {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title i {
+            font-size: 1.5em;
+        }
+
+        .card-content {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .combinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .combination-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .combination-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .match-score {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .combination-content {
+            padding: 20px;
+        }
+
+        .item-pair {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .item-info h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .item-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .tag {
+            background: #e8f4fc;
+            color: #3498db;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+
+        .story {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-style: italic;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            background: white;
+            color: #667eea;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .filter-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            flex: 1;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="window.location.href='/'">← 返回首页</button>
+
+    <div class="container">
+        <header>
+            <h1>🧩 智能排列组合匹配</h1>
+            <p class="subtitle">将纹样图案与中草药进行智能匹配，创造独特的产品设计方案</p>
+        </header>
+
+        <div class="stats" id="stats">
+            <!-- 动态统计数据 -->
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="loadCombinations('recommended')">
+                🌟 推荐组合
+            </button>
+            <button class="filter-btn" onclick="loadCombinations('all')">
+                🔍 所有组合
+            </button>
+            <button class="filter-btn" onclick="loadCombinations('cultural')">
+                🎎 文化匹配
+            </button>
+            <button class="filter-btn" onclick="loadCombinations('random')">
+                🎲 随机灵感
+            </button>
+            <button class="filter-btn" onclick="showColorFilters()">
+                🎨 颜色主题
+            </button>
+        </div>
+
+        <div id="feature-cards" class="feature-cards">
+            <div class="card" onclick="loadCombinations('recommended')">
+                <div class="card-title">🌟 智能推荐</div>
+                <div class="card-content">
+                    基于文化、颜色、寓意等多维度匹配算法，为您推荐最佳纹样与中草药组合。
+                </div>
+            </div>
+            <div class="card" onclick="loadCombinations('cultural')">
+                <div class="card-title">🎎 文化融合</div>
+                <div class="card-content">
+                    将中国传统纹样与中草药智慧相结合，或探索跨文化创新组合。
+                </div>
+            </div>
+            <div class="card" onclick="loadCombinations('random')">
+                <div class="card-title">🎲 灵感启发</div>
+                <div class="card-content">
+                    随机生成创意组合，激发设计灵感，探索更多可能性。
+                </div>
+            </div>
+        </div>
+
+        <div id="combinations-container" class="combinations-grid">
+            <div class="loading">
+                <p>正在加载智能组合...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentFilter = 'recommended';
+
+        // 页面加载时获取推荐组合
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCombinations('recommended');
+            loadStats();
+        });
+
+        function updateActiveFilter(filter) {
+            // 移除所有按钮的active类
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // 为当前按钮添加active类
+            event.target.classList.add('active');
+            currentFilter = filter;
+        }
+
+        async function loadCombinations(type) {
+            updateActiveFilter(type);
+
+            const container = document.getElementById('combinations-container');
+            container.innerHTML = '<div class="loading"><p>正在加载组合数据...</p></div>';
+
+            let apiUrl = '';
+            let title = '';
+
+            switch(type) {
+                case 'recommended':
+                    apiUrl = '/api/combinations/recommended';
+                    title = '🌟 推荐组合';
+                    break;
+                case 'all':
+                    apiUrl = '/api/combinations/all';
+                    title = '🔍 所有组合';
+                    break;
+                case 'cultural':
+                    apiUrl = '/api/combinations/cultural';
+                    title = '🎎 文化匹配组合';
+                    break;
+                case 'random':
+                    apiUrl = '/api/combinations/random?count=12';
+                    title = '🎲 随机灵感组合';
+                    break;
+            }
+
+            try {
+                const response = await fetch(apiUrl);
+                let data = await response.json();
+
+                container.innerHTML = '';
+
+                // 处理不同API返回的数据结构
+                let combinations = [];
+                if (type === 'recommended') {
+                    // 合并所有推荐组合
+                    combinations = [
+                        ...data.top_picks || [],
+                        ...data.cultural_matches || [],
+                        ...data.color_matches || []
+                    ];
+                } else if (type === 'all') {
+                    // 合并所有组合
+                    combinations = [
+                        ...data.excellent_matches || [],
+                        ...data.good_matches || [],
+                        ...data.experimental_matches || []
+                    ];
+                } else {
+                    combinations = data;
+                }
+
+                if (combinations.length === 0) {
+                    container.innerHTML = '<div class="loading"><p>暂无组合数据</p></div>';
+                    return;
+                }
+
+                // 显示组合卡片
+                combinations.forEach((combo, index) => {
+                    if (index >= 12) return; // 最多显示12个
+
+                    const card = createCombinationCard(combo, type);
+                    container.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error('加载组合失败:', error);
+                container.innerHTML = `
+                    <div class="loading">
+                        <p style="color: red;">加载失败: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function createCombinationCard(combo, type) {
+            const card = document.createElement('div');
+            card.className = 'combination-card';
+
+            const pattern = combo.pattern || combo;
+            const herb = combo.herb || {};
+            const score = combo.score || 50;
+
+            // 获取图片URL
+            const patternImageUrl = `/data/patterns/${encodeURIComponent(pattern.image || 'placeholder.jpg')}`;
+
+            // 匹配分数对应的颜色
+            let scoreColor = '#e74c3c'; // 红色
+            if (score >= 70) scoreColor = '#2ecc71'; // 绿色
+            else if (score >= 50) scoreColor = '#f39c12'; // 橙色
+
+            // 组合类型标签
+            let typeLabel = '';
+            if (type === 'cultural') {
+                typeLabel = combo.type || '文化匹配';
+            } else if (score >= 70) {
+                typeLabel = '🌟 完美搭配';
+            } else if (score >= 50) {
+                typeLabel = '👍 优良组合';
+            } else {
+                typeLabel = '💡 创新尝试';
+            }
+
+            card.innerHTML = `
+                <div class="combination-header">
+                    <div>${typeLabel}</div>
+                    <div class="match-score" style="background-color: ${scoreColor}20; color: ${scoreColor}">
+                        ${score}分
+                    </div>
+                </div>
+                <div class="combination-content">
+                    <div class="item-pair">
+                        <img src="${patternImageUrl}"
+                             alt="${pattern.name}"
+                             class="item-image"
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/60'">
+                        <div class="item-info">
+                            <h4>${pattern.name}</h4>
+                            <div class="item-tags">
+                                ${(pattern.style_tags || []).map(tag =>
+                                    `<span class="tag">${tag}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin: 10px 0; color: #667eea;">+</div>
+
+                    <div class="item-pair">
+                        <div class="item-image" style="background: #f0f7ff; display: flex; align-items: center; justify-content: center; color: #2ecc71; font-size: 24px;">
+                            🌿
+                        </div>
+                        <div class="item-info">
+                            <h4>${herb.name || '中草药'}</h4>
+                            <div class="item-tags">
+                                <span class="tag">${herb.effect || '养生'}</span>
+                                <span class="tag">${herb.color || '自然色'}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="story">
+                        ${combo.story || '这是一个创新的纹样与中草药组合。'}
+                    </div>
+
+                    <div style="margin-top: 15px; font-size: 12px; color: #95a5a6;">
+                        可能应用：服饰设计 · 家居装饰 · 文化礼品
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function showColorFilters() {
+            const colors = ['红色', '绿色', '蓝色', '金色', '黑色', '白色', '紫色'];
+
+            const container = document.getElementById('combinations-container');
+            container.innerHTML = `
+                <div style="grid-column: 1 / -1;">
+                    <h3 style="margin-bottom: 20px; color: #2c3e50;">🎨 选择颜色主题</h3>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        ${colors.map(color => `
+                            <button class="filter-btn"
+                                    onclick="loadCombinationsByColor('${color}')"
+                                    style="background: ${getColorHex(color)}20; color: ${getColorHex(color)};">
+                                ${color}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getColorHex(color) {
+            const colorMap = {
+                '红色': '#e74c3c',
+                '绿色': '#2ecc71',
+                '蓝色': '#3498db',
+                '金色': '#f1c40f',
+                '黑色': '#2c3e50',
+                '白色': '#ecf0f1',
+                '紫色': '#9b59b6'
+            };
+            return colorMap[color] || '#95a5a6';
+        }
+
+        async function loadCombinationsByColor(color) {
+            const container = document.getElementById('combinations-container');
+            container.innerHTML = '<div class="loading"><p>正在加载' + color + '主题组合...</p></div>';
+
+            try {
+                const response = await fetch(`/api/combinations/by-color/${encodeURIComponent(color)}`);
+                const data = await response.json();
+
+                container.innerHTML = '';
+
+                if (data.combinations && data.combinations.length > 0) {
+                    data.combinations.forEach((combo, index) => {
+                        if (index >= 9) return;
+                        const card = createCombinationCard(combo, 'color');
+                        container.appendChild(card);
+                    });
+                } else {
+                    container.innerHTML = `<div class="loading"><p>暂无${color}主题的组合</p></div>`;
+                }
+
+            } catch (error) {
+                console.error('加载颜色组合失败:', error);
+            }
+        }
+
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/combinations/all');
+                const data = await response.json();
+
+                const statsContainer = document.getElementById('stats');
+                statsContainer.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-number">${data.total_combinations || 0}</div>
+                        <div class="stat-label">总组合数</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${data.summary?.excellent_count || 0}</div>
+                        <div class="stat-label">完美匹配</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${data.summary?.good_count || 0}</div>
+                        <div class="stat-label">优良组合</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${patterns_data?.length || 0}×${herbs_data?.length || 0}</div>
+                        <div class="stat-label">可能组合</div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('加载统计数据失败:', error);
+            }
+        }
+    </script>
+</body>
+</html>

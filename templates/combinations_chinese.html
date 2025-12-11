@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Combination Matching · Xie Xiang Yun</title>
+    <style>
+        :root {
+            --primary-color: #8b5a2b;
+            --secondary-color: #d4a76a;
+            --accent-color: #e6c9a8;
+            --light-color: #f8f3eb;
+            --dark-color: #3a2611;
+            --text-color: #5a3921;
+            --border-color: #c9a87c;
+            --chinese-red: #c03a2b;
+            --indonesia-brown: #7a5230;
+            --success-color: #5a8c5a;
+            --warning-color: #d4a62b;
+            --info-color: #4a7a9e;
+            --border-radius: 8px;
+            --shadow: 0 6px 16px rgba(58, 38, 17, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(234, 224, 213, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(212, 167, 106, 0.1) 0%, transparent 20%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ========== Page Header ========== */
+        .page-header {
+            background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid var(--secondary-color);
+            position: relative;
+        }
+
+        .page-header::before {
+            content: '🧬';
+            font-size: 50px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            opacity: 0.3;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, var(--secondary-color), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            margin-top: 10px;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+        }
+
+        /* ========== Back Button ========== */
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(139, 90, 43, 0.3);
+        }
+
+        /* ========== Feature Cards ========== */
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            text-align: center;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--chinese-red), var(--indonesia-brown));
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(58, 38, 17, 0.2);
+        }
+
+        .feature-card.active {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-color);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+
+        .feature-desc {
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* ========== Manual Matching Section ========== */
+        .matching-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            font-size: 28px;
+        }
+
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* ========== Pattern Cards ========== */
+        .pattern-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(58, 38, 17, 0.2);
+        }
+
+        .pattern-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--chinese-red), var(--indonesia-brown));
+        }
+
+        .pattern-card.selected {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-color);
+        }
+
+        .pattern-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            background-color: var(--light-color);
+        }
+
+        .pattern-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+            padding: 10px;
+        }
+
+        .pattern-card:hover .pattern-image {
+            transform: scale(1.05);
+        }
+
+        .culture-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            z-index: 2;
+        }
+
+        .culture-chinese {
+            background-color: var(--chinese-red);
+        }
+
+        .culture-indonesia {
+            background-color: var(--indonesia-brown);
+        }
+
+        .pattern-info {
+            padding: 20px;
+        }
+
+        .pattern-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+
+        .pattern-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .pattern-type {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .pattern-view-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pattern-view-btn:hover {
+            background: var(--dark-color);
+        }
+
+        .pattern-meaning {
+            font-size: 14px;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            line-height: 1.6;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .pattern-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .pattern-tag {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* ========== Herb Cards ========== */
+        .herb-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            cursor: pointer;
+            padding: 20px;
+        }
+
+        .herb-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(58, 38, 17, 0.15);
+        }
+
+        .herb-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #5a8c5a, #8ab68a);
+        }
+
+        .herb-card.selected {
+            border-color: #5a8c5a;
+            box-shadow: 0 0 0 3px #5a8c5a;
+        }
+
+        .herb-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .herb-icon {
+            font-size: 32px;
+            color: #5a8c5a;
+        }
+
+        .herb-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark-color);
+            flex: 1;
+        }
+
+        .herb-effects {
+            font-size: 14px;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            line-height: 1.6;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .herb-properties {
+            font-size: 12px;
+            color: #5a8c5a;
+            font-weight: bold;
+        }
+
+        /* ========== Action Buttons ========== */
+        .matching-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .action-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(139, 90, 43, 0.3);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .action-btn.random {
+            background: linear-gradient(135deg, #7a5230, #9c6e42);
+        }
+
+        /* ========== Results Section ========== */
+        .results-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            min-height: 400px;
+        }
+
+        .results-placeholder {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .results-placeholder-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        /* ========== Combination Result Cards ========== */
+        .combination-result {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .combination-result::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--chinese-red), var(--indonesia-brown));
+        }
+
+        .combination-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .combination-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+
+        .match-score {
+            font-size: 14px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .score-high {
+            background-color: var(--success-color);
+        }
+
+        .score-medium {
+            background-color: var(--warning-color);
+        }
+
+        .score-low {
+            background-color: #a94442;
+        }
+
+        .combination-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .combination-item {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .item-icon {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-top: 5px;
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-title {
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .item-desc {
+            font-size: 14px;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .combination-story {
+            background: var(--light-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+        }
+
+        .story-title {
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .story-content {
+            font-size: 14px;
+            color: var(--text-color);
+            line-height: 1.8;
+        }
+
+        /* ========== Footer ========== */
+        footer {
+            background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .copyright {
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 167, 106, 0.3);
+            color: var(--accent-color);
+            font-size: 14px;
+        }
+
+        /* ========== Loading Animation ========== */
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--accent-color);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ========== Responsive Design ========== */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .page-header {
+                padding: 30px 0;
+            }
+
+            .page-title {
+                font-size: 24px;
+                letter-spacing: 1px;
+            }
+
+            .back-link {
+                position: static;
+                margin-bottom: 20px;
+                display: inline-flex;
+            }
+
+            .feature-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .selection-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .matching-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                justify-content: center;
+            }
+
+            .combination-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-link">
+        <span>←</span>
+        Back to Home
+    </a>
+
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title">Intelligent Combination Matching</h1>
+            <p class="page-subtitle">The Beautiful Encounter of Patterns and Herbs · Creating Unique Cultural Narratives</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Feature Cards -->
+        <div class="feature-cards" id="feature-cards">
+            <div class="feature-card" onclick="showManualMatching()">
+                <div class="feature-icon">✨</div>
+                <h3 class="feature-title">Manual Matching</h3>
+                <p class="feature-desc">Freely select patterns and herbs to create personalized combinations</p>
+            </div>
+            <div class="feature-card" onclick="loadRecommendedCombinations()">
+                <div class="feature-icon">🌟</div>
+                <h3 class="feature-title">Recommended Combinations</h3>
+                <p class="feature-desc">View system-recommended high-quality pattern and herb combinations</p>
+            </div>
+            <div class="feature-card" onclick="loadRandomCombinations()">
+                <div class="feature-icon">🎲</div>
+                <h3 class="feature-title">Random Inspiration</h3>
+                <p class="feature-desc">Get random combinations to spark creative inspiration</p>
+            </div>
+        </div>
+
+        <!-- Manual Matching Section -->
+        <div id="manual-matching-section" class="matching-section" style="display: none;">
+            <!-- Pattern Selection -->
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-icon">🎨</span>
+                    Select Pattern
+                </h2>
+                <div id="pattern-count">Select 1 pattern</div>
+            </div>
+            <div id="patterns-container" class="selection-grid">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading patterns...</p>
+                </div>
+            </div>
+
+            <!-- Herb Selection -->
+            <div class="section-header" style="margin-top: 40px;">
+                <h2 class="section-title">
+                    <span class="section-icon">🌿</span>
+                    Select Herb
+                </h2>
+                <div id="herb-count">Select 1 herb</div>
+            </div>
+            <div id="herbs-container" class="selection-grid">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading herbs...</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="matching-actions">
+                <button id="match-btn" class="action-btn" disabled>
+                    <span>✨</span>
+                    Start Matching
+                </button>
+                <button id="random-match-btn" class="action-btn random">
+                    <span>🎲</span>
+                    Random Match
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="results-section">
+            <div id="results-container" class="results-placeholder">
+                <div class="results-placeholder-icon">🧬</div>
+                <h3>Select a Function to Begin</h3>
+                <p>Please click on the feature cards above to start</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>© 2023 Xie Xiang Yun · Intelligent Combination Matching | The Aesthetic Dialogue of Traditional Patterns and Herbs</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Global variables
+        let selectedPattern = null;
+        let selectedHerb = null;
+        let allPatterns = [];
+        let allHerbs = [];
+        let currentView = null; // 'manual', 'recommended', 'random'
+
+        // Initialize after page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPatterns();
+            loadHerbs();
+
+            // Bind button events
+            document.getElementById('match-btn').addEventListener('click', performManualMatch);
+            document.getElementById('random-match-btn').addEventListener('click', performRandomMatch);
+        });
+
+        // Load patterns
+        async function loadPatterns() {
+            try {
+                const response = await fetch('/api/patterns');
+                allPatterns = await response.json();
+                if (currentView === 'manual') {
+                    renderPatterns(allPatterns);
+                }
+            } catch (error) {
+                console.error('Failed to load patterns:', error);
+                if (currentView === 'manual') {
+                    document.getElementById('patterns-container').innerHTML =
+                        '<div style="text-align: center; padding: 40px; color: #c03a2b;">Failed to load patterns</div>';
+                }
+            }
+        }
+
+        // Load herbs
+        async function loadHerbs() {
+            try {
+                const response = await fetch('/api/herbs');
+                allHerbs = await response.json();
+                if (currentView === 'manual') {
+                    renderHerbs(allHerbs);
+                }
+            } catch (error) {
+                console.error('Failed to load herbs:', error);
+                if (currentView === 'manual') {
+                    document.getElementById('herbs-container').innerHTML =
+                        '<div style="text-align: center; padding: 40px; color: #c03a2b;">Failed to load herbs</div>';
+                }
+            }
+        }
+
+        // Show manual matching interface
+        function showManualMatching() {
+            currentView = 'manual';
+            updateActiveFeatureCard('manual');
+
+            // Show manual matching section, hide results content
+            document.getElementById('manual-matching-section').style.display = 'block';
+            document.getElementById('results-section').style.display = 'block';
+
+            // Clear results area, show prompt
+            document.getElementById('results-container').innerHTML = `
+                <div class="results-placeholder">
+                    <div class="results-placeholder-icon">✨</div>
+                    <h3>Waiting for Match Results</h3>
+                    <p>Please select a pattern and herb, then click "Start Matching"</p>
+                </div>
+            `;
+
+            // Render patterns and herbs
+            renderPatterns(allPatterns);
+            renderHerbs(allHerbs);
+
+            // Reset selection state
+            selectedPattern = null;
+            selectedHerb = null;
+            updatePatternCount();
+            updateHerbCount();
+            checkMatchReady();
+        }
+
+        // Render pattern list
+        function renderPatterns(patterns) {
+            const container = document.getElementById('patterns-container');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            patterns.forEach(pattern => {
+                const card = document.createElement('div');
+                card.className = 'pattern-card';
+                if (selectedPattern && selectedPattern.id === pattern.id) {
+                    card.classList.add('selected');
+                }
+                card.dataset.id = pattern.id;
+
+                // Culture label
+                const cultureClass = pattern.culture === 'chinese' ? 'culture-chinese' : 'culture-indonesia';
+                const cultureText = pattern.culture === 'chinese' ? '🇨🇳 Chinese' : '🇮🇩 Indonesian';
+
+                // Pattern tags (first 3)
+                const tags = pattern.style_tags ? pattern.style_tags.slice(0, 3) : [];
+
+                // Image URL
+                const imageUrl = `/data/patterns/${encodeURIComponent(pattern.image)}`;
+
+                card.innerHTML = `
+                    <div class="pattern-image-container">
+                        <span class="culture-badge ${cultureClass}">${cultureText}</span>
+                        <img src="${imageUrl}" alt="${pattern.name}" class="pattern-image"
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300/${pattern.culture === 'chinese' ? 'C03A2B' : '7A5230'}/FFFFFF?text=${encodeURIComponent(pattern.name.substring(0, 10))}'">
+                    </div>
+                    <div class="pattern-info">
+                        <h3 class="pattern-name">${pattern.name}</h3>
+                        <div class="pattern-meta">
+                            <span class="pattern-type">${pattern.type || 'Traditional Pattern'}</span>
+                            <button class="pattern-view-btn" onclick="showPatternDetail(${JSON.stringify(pattern).replace(/"/g, '&quot;').replace(/'/g, "&#39;")}); event.stopPropagation();">Details</button>
+                        </div>
+                        <p class="pattern-meaning">${pattern.meaning || 'Traditional pattern with deep meaning'}</p>
+                        <div class="pattern-tags">
+                            ${tags.map(tag => `<span class="pattern-tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+
+                // Click to select pattern
+                card.addEventListener('click', () => selectPattern(pattern));
+                container.appendChild(card);
+            });
+        }
+
+        // Render herb list
+        function renderHerbs(herbs) {
+            const container = document.getElementById('herbs-container');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            herbs.forEach(herb => {
+                const card = document.createElement('div');
+                card.className = 'herb-card';
+                if (selectedHerb && selectedHerb.id === herb.id) {
+                    card.classList.add('selected');
+                }
+                card.dataset.id = herb.id;
+
+                card.innerHTML = `
+                    <div class="herb-header">
+                        <div class="herb-icon">🌿</div>
+                        <div class="herb-name">${herb.name}</div>
+                    </div>
+                    <div class="herb-effects">${herb.description || herb.effects || 'Traditional herbal medicine with medicinal value'}</div>
+                    <div class="herb-properties">${herb.properties || 'Neutral, sweet taste'}</div>
+                `;
+
+                // Click to select herb
+                card.addEventListener('click', () => selectHerb(herb));
+                container.appendChild(card);
+            });
+        }
+
+        // Show pattern details
+        function showPatternDetail(pattern) {
+            const imageUrl = `/data/patterns/${encodeURIComponent(pattern.image)}`;
+            const detailHTML = `
+                <div id="pattern-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 20px;">
+                    <div style="background: white; padding: 30px; border-radius: 12px; max-width: 800px; max-height: 90%; overflow-y: auto; width: 100%; border: 2px solid #c9a87c;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #e6c9a8; padding-bottom: 15px;">
+                            <h2 style="margin: 0; color: #3a2611;">${pattern.name}</h2>
+                            <button onclick="document.getElementById('pattern-modal').remove()"
+                                    style="background: #c03a2b; color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;">Close</button>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 30px;">
+                            <div style="flex: 1; min-width: 300px;">
+                                <img src="${imageUrl}" alt="${pattern.name}" style="width: 100%; height: auto; max-height: 400px; object-fit: contain; border-radius: 8px; border: 1px solid #c9a87c; padding: 10px; background: #f8f3eb;" />
+                            </div>
+                            <div style="flex: 1; min-width: 300px;">
+                                <h4 style="color: #8b5a2b; margin-bottom: 15px;">Pattern Information</h4>
+                                <p><strong>Culture:</strong><span style="background: ${pattern.culture === 'chinese' ? '#c03a2b' : '#7a5230'}; color: white; padding: 2px 10px; border-radius: 12px; font-size: 12px;">${pattern.culture === 'chinese' ? 'Chinese' : 'Indonesian'}</span></p>
+                                <p><strong>Type:</strong>${pattern.type || 'Traditional Pattern'}</p>
+                                <p><strong>Meaning:</strong>${pattern.meaning || 'Traditional pattern with deep meaning'}</p>
+                                <p><strong>Elements:</strong>${(pattern.elements || []).join(', ')}</p>
+                                <p><strong>Main Colors:</strong>${(pattern.colors || []).join(', ')}</p>
+                                <p><strong>Style Tags:</strong>${(pattern.style_tags || []).join(', ')}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Remove existing modal
+            const existingModal = document.getElementById('pattern-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            document.body.insertAdjacentHTML('beforeend', detailHTML);
+        }
+
+        // Select pattern
+        function selectPattern(pattern) {
+            selectedPattern = pattern;
+            renderPatterns(allPatterns);
+            updatePatternCount();
+            checkMatchReady();
+        }
+
+        // Select herb
+        function selectHerb(herb) {
+            selectedHerb = herb;
+            renderHerbs(allHerbs);
+            updateHerbCount();
+            checkMatchReady();
+        }
+
+        // Update pattern count
+        function updatePatternCount() {
+            const countElement = document.getElementById('pattern-count');
+            if (countElement) {
+                countElement.textContent = selectedPattern ? 'Selected' : 'Select 1 pattern';
+            }
+        }
+
+        // Update herb count
+        function updateHerbCount() {
+            const countElement = document.getElementById('herb-count');
+            if (countElement) {
+                countElement.textContent = selectedHerb ? 'Selected' : 'Select 1 herb';
+            }
+        }
+
+        // Check if ready to match
+        function checkMatchReady() {
+            const matchBtn = document.getElementById('match-btn');
+            if (matchBtn) {
+                matchBtn.disabled = !(selectedPattern && selectedHerb);
+            }
+        }
+
+        // Update active feature card
+        function updateActiveFeatureCard(type) {
+            // Remove active class from all cards
+            document.querySelectorAll('.feature-card').forEach(card => {
+                card.classList.remove('active');
+            });
+
+            // Add active class to current card
+            const featureCards = document.querySelectorAll('.feature-card');
+            if (type === 'manual') {
+                featureCards[0].classList.add('active');
+            } else if (type === 'recommended') {
+                featureCards[1].classList.add('active');
+            } else if (type === 'random') {
+                featureCards[2].classList.add('active');
+            }
+        }
+
+        // Perform manual match
+        async function performManualMatch() {
+            if (!selectedPattern || !selectedHerb) return;
+
+            const resultsContainer = document.getElementById('results-container');
+            resultsContainer.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Generating match results...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('/api/combine/story', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        pattern_id: selectedPattern.id,
+                        herb_id: selectedHerb.id
+                    })
+                });
+
+                const result = await response.json();
+                displayMatchResult(result);
+
+            } catch (error) {
+                console.error('Match failed:', error);
+                resultsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="font-size: 40px; color: #c03a2b; margin-bottom: 20px;">❌</div>
+                        <h3 style="color: #c03a2b;">Match Failed</h3>
+                        <p>Please check network connection and try again</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Perform random match
+        async function performRandomMatch() {
+            const resultsContainer = document.getElementById('results-container');
+            resultsContainer.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Searching for random combination...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('/api/combinations/random?count=1');
+                const results = await response.json();
+
+                if (results.length > 0) {
+                    const randomResult = results[0];
+
+                    // Update selection state
+                    selectedPattern = randomResult.pattern;
+                    selectedHerb = randomResult.herb;
+                    if (currentView === 'manual') {
+                        renderPatterns(allPatterns);
+                        renderHerbs(allHerbs);
+                        updatePatternCount();
+                        updateHerbCount();
+                        checkMatchReady();
+                    }
+
+                    displayMatchResult(randomResult);
+                }
+
+            } catch (error) {
+                console.error('Random match failed:', error);
+                resultsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="font-size: 40px; color: #c03a2b; margin-bottom: 20px;">❌</div>
+                        <h3 style="color: #c03a2b;">Random Match Failed</h3>
+                        <p>Please check network connection and try again</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load recommended combinations
+        async function loadRecommendedCombinations() {
+            currentView = 'recommended';
+            updateActiveFeatureCard('recommended');
+
+            // Hide manual matching section
+            document.getElementById('manual-matching-section').style.display = 'none';
+            document.getElementById('results-section').style.display = 'block';
+
+            const resultsContainer = document.getElementById('results-container');
+            resultsContainer.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading recommended combinations...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('/api/combinations/recommended');
+                const data = await response.json();
+
+                // Combine all recommended combinations
+                const combinations = [
+                    ...(data.top_picks || []),
+                    ...(data.cultural_matches || []),
+                    ...(data.color_matches || [])
+                ];
+
+                displayCombinations(combinations, 'Recommended Combinations');
+
+            } catch (error) {
+                console.error('Failed to load recommended combinations:', error);
+                resultsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="font-size: 40px; color: #c03a2b; margin-bottom: 20px;">❌</div>
+                        <h3 style="color: #c03a2b;">Load Failed</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load random combinations
+        async function loadRandomCombinations() {
+            currentView = 'random';
+            updateActiveFeatureCard('random');
+
+            // Hide manual matching section
+            document.getElementById('manual-matching-section').style.display = 'none';
+            document.getElementById('results-section').style.display = 'block';
+
+            const resultsContainer = document.getElementById('results-container');
+            resultsContainer.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading random combinations...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('/api/combinations/random?count=12');
+                const combinations = await response.json();
+                displayCombinations(combinations, 'Random Inspiration Combinations');
+
+            } catch (error) {
+                console.error('Failed to load random combinations:', error);
+                resultsContainer.innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="font-size: 40px; color: #c03a2b; margin-bottom: 20px;">❌</div>
+                        <h3 style="color: #c03a2b;">Load Failed</h3>
+                        <p>Please check network connection and try again</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Display match result
+        function displayMatchResult(result) {
+            const resultsContainer = document.getElementById('results-container');
+
+            // Determine score level
+            const score = result.score || result.match_score || 50;
+            let scoreClass = 'score-low';
+            if (score >= 70) scoreClass = 'score-high';
+            else if (score >= 50) scoreClass = 'score-medium';
+
+            resultsContainer.innerHTML = `
+                <div class="combination-result">
+                    <div class="combination-header">
+                        <h3 class="combination-name">${result.combination_name || `${result.pattern.name} · ${result.herb.name}`}</h3>
+                        <div class="match-score ${scoreClass}">Match Score: ${score}%</div>
+                    </div>
+
+                    <div class="combination-content">
+                        <div class="combination-item" onclick="showPatternDetail(${JSON.stringify(result.pattern).replace(/"/g, '&quot;')})" style="cursor: pointer;">
+                            <div class="item-icon">🎨</div>
+                            <div class="item-content">
+                                <div class="item-title">${result.pattern.name}</div>
+                                <div class="item-desc">${result.pattern.meaning || 'Traditional pattern with deep meaning'}</div>
+                                <div style="margin-top: 10px; font-size: 12px; color: #888;">
+                                    Click to view details
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="combination-item">
+                            <div class="item-icon">🌿</div>
+                            <div class="item-content">
+                                <div class="item-title">${result.herb.name}</div>
+                                <div class="item-desc">${result.herb.description || result.herb.effects || 'Traditional herbal medicine'}</div>
+                                <div style="margin-top: 10px; font-size: 12px; color: #888;">
+                                    ${result.herb.properties || 'Medicinal plant'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="combination-story">
+                        <div class="story-title">
+                            <span>📖</span>
+                            Cultural Narrative
+                        </div>
+                        <div class="story-content">${result.story || 'This unique combination creates a beautiful dialogue between art and culture.'}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Display combinations list
+        function displayCombinations(combinations, title) {
+            const resultsContainer = document.getElementById('results-container');
+
+            if (combinations.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="results-placeholder">
+                        <div class="results-placeholder-icon">🔍</div>
+                        <h3>No combination data available</h3>
+                        <p>Try manual matching or other combination types</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `<h2 style="margin-bottom: 20px; color: var(--dark-color);">${title} · Total ${combinations.length} combinations</h2>`;
+
+            combinations.forEach(combo => {
+                // Determine score level
+                const score = combo.score || 50;
+                let scoreClass = 'score-low';
+                if (score >= 70) scoreClass = 'score-high';
+                else if (score >= 50) scoreClass = 'score-medium';
+
+                html += `
+                    <div class="combination-result">
+                        <div class="combination-header">
+                            <h3 class="combination-name">${combo.combination_name || `${combo.pattern.name} · ${combo.herb.name}`}</h3>
+                            <div class="match-score ${scoreClass}">Match Score: ${score}%</div>
+                        </div>
+
+                        <div class="combination-content">
+                            <div class="combination-item" onclick="showPatternDetail(${JSON.stringify(combo.pattern).replace(/"/g, '&quot;')})" style="cursor: pointer;">
+                                <div class="item-icon">🎨</div>
+                                <div class="item-content">
+                                    <div class="item-title">${combo.pattern.name}</div>
+                                    <div class="item-desc">${combo.pattern.meaning || 'Traditional pattern with deep meaning'}</div>
+                                    <div style="margin-top: 10px; font-size: 12px; color: #888;">
+                                        Click to view details
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="combination-item">
+                                <div class="item-icon">🌿</div>
+                                <div class="item-content">
+                                    <div class="item-title">${combo.herb.name}</div>
+                                    <div class="item-desc">${combo.herb.description || combo.herb.effects || 'Traditional herbal medicine'}</div>
+                                    <div style="margin-top: 10px; font-size: 12px; color: #888;">
+                                        ${combo.herb.properties || 'Medicinal plant'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="combination-story">
+                            <div class="story-title">
+                                <span>📖</span>
+                                Cultural Narrative
+                            </div>
+                            <div class="story-content">${combo.story || 'This unique combination creates a beautiful dialogue between art and culture.'}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            resultsContainer.innerHTML = html;
+        }
+    </script>
+</body>
+</html>

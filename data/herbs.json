@@ -1,0 +1,122 @@
+[
+  {
+    "id": "herb_1",
+    "name": "Ginseng",
+    "effect": "Replenishes Qi and blood, enhances immunity",
+    "description": "Perennial herb known as the King of Herbs",
+    "color": "Yellow-white",
+    "tags": ["energy", "immunity", "tonic", "chinese"],
+    "category": "tonic",
+    "origin": "Asia"
+  },
+  {
+    "id": "herb_2",
+    "name": "Goji Berry",
+    "effect": "Brightens eyes, nourishes liver, anti-aging",
+    "description": "Red berries commonly used in health teas",
+    "color": "Red",
+    "tags": ["antioxidant", "vision", "liver", "chinese"],
+    "category": "fruit",
+    "origin": "Asia"
+  },
+  {
+    "id": "herb_3",
+    "name": "Chinese Angelica",
+    "effect": "Promotes blood circulation, regulates menstruation, nourishes blood",
+    "description": "Root of Umbelliferae plant, commonly used in women's health",
+    "color": "Yellow-brown",
+    "tags": ["blood", "women", "circulation", "chinese"],
+    "category": "root",
+    "origin": "Asia"
+  },
+  {
+    "id": "herb_4",
+    "name": "Frankincense",
+    "effect": "Anti-inflammatory, promotes spiritual awareness, wound healing",
+    "description": "Aromatic resin used in incense and traditional medicine",
+    "color": "Yellow-brown",
+    "tags": ["anti-inflammatory", "spiritual", "aromatic", "middle-eastern"],
+    "category": "resin",
+    "origin": "Middle East/Africa"
+  },
+  {
+    "id": "herb_5",
+    "name": "Myrrh",
+    "effect": "Antiseptic, anti-inflammatory, supports oral health",
+    "description": "Resin used in traditional medicine and perfumes",
+    "color": "Brown-red",
+    "tags": ["antiseptic", "healing", "aromatic", "middle-eastern"],
+    "category": "resin",
+    "origin": "Middle East/Africa"
+  },
+  {
+    "id": "herb_6",
+    "name": "Saffron",
+    "effect": "Mood enhancement, antioxidant, anti-inflammatory",
+    "description": "World's most expensive spice from crocus flowers",
+    "color": "Red-gold",
+    "tags": ["mood", "antioxidant", "luxury", "middle-eastern"],
+    "category": "spice",
+    "origin": "Middle East/Asia"
+  },
+  {
+    "id": "herb_7",
+    "name": "Clove",
+    "effect": "Dental pain relief, digestive aid, antioxidant",
+    "description": "Aromatic flower buds with medicinal properties",
+    "color": "Brown",
+    "tags": ["dental", "digestive", "spice", "indonesian"],
+    "category": "spice",
+    "origin": "Indonesia"
+  },
+  {
+    "id": "herb_8",
+    "name": "Cardamom",
+    "effect": "Digestive aid, freshens breath, antioxidant",
+    "description": "Aromatic spice pods with medicinal value",
+    "color": "Green",
+    "tags": ["digestive", "breath", "aromatic", "indian"],
+    "category": "spice",
+    "origin": "India/Southeast Asia"
+  },
+  {
+    "id": "herb_9",
+    "name": "Turmeric",
+    "effect": "Anti-inflammatory, antioxidant, supports joint health",
+    "description": "Golden spice with powerful anti-inflammatory properties",
+    "color": "Gold",
+    "tags": ["anti-inflammatory", "joint", "spice", "indian"],
+    "category": "spice",
+    "origin": "Asia"
+  },
+  {
+    "id": "herb_10",
+    "name": "Cinnamon",
+    "effect": "Blood sugar regulation, antioxidant, anti-inflammatory",
+    "description": "Aromatic bark with medicinal properties",
+    "color": "Brown",
+    "tags": ["blood sugar", "antioxidant", "spice", "asian"],
+    "category": "spice",
+    "origin": "Asia"
+  },
+  {
+    "id": "herb_11",
+    "name": "Nutmeg",
+    "effect": "Digestive aid, pain relief, sleep support",
+    "description": "Aromatic seed with medicinal uses",
+    "color": "Brown",
+    "tags": ["digestive", "sleep", "spice", "indonesian"],
+    "category": "spice",
+    "origin": "Indonesia"
+  },
+  {
+    "id": "herb_12",
+    "name": "Ginger",
+    "effect": "Nausea relief, anti-inflammatory, digestive aid",
+    "description": "Root spice with warming properties",
+    "color": "Yellow-brown",
+    "tags": ["digestive", "nausea", "warming", "asian"],
+    "category": "spice",
+    "origin": "Asia"
+  }
+]

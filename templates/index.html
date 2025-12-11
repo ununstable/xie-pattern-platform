@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xie Xiang Yun · Intelligent Pattern Platform</title>
+    <style>
+        :root {
+            --primary-color: #8b5a2b;
+            --secondary-color: #d4a76a;
+            --accent-color: #e6c9a8;
+            --light-color: #f8f3eb;
+            --dark-color: #3a2611;
+            --text-color: #5a3921;
+            --border-color: #c9a87c;
+            --chinese-red: #c03a2b;
+            --indonesia-brown: #7a5230;
+            --product-color: #2b8b5a;
+            --border-radius: 8px;
+            --shadow: 0 6px 16px rgba(58, 38, 17, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(234, 224, 213, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(212, 167, 106, 0.1) 0%, transparent 20%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ========== Page Header ========== */
+        .page-header {
+            background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+            color: white;
+            padding: 60px 0 40px;
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid var(--secondary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '🌸';
+            font-size: 80px;
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            opacity: 0.2;
+        }
+
+        .page-header::after {
+            content: '🌿';
+            font-size: 60px;
+            position: absolute;
+            bottom: 20px;
+            left: 40px;
+            opacity: 0.2;
+        }
+
+        .page-title {
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, var(--secondary-color), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+
+        /* ========== Navigation Buttons ========== */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(139, 90, 43, 0.3);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .nav-button-icon {
+            font-size: 24px;
+        }
+
+        /* ========== Sections ========== */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 60px 0 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .view-all-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .view-all-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* ========== Gallery Grid ========== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        /* ========== Pattern Card ========== */
+        .pattern-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .pattern-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(58, 38, 17, 0.2);
+        }
+
+        .pattern-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--chinese-red), var(--indonesia-brown));
+        }
+
+        .pattern-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            background-color: var(--light-color);
+        }
+
+        .pattern-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+            padding: 10px;
+        }
+
+        .pattern-card:hover .pattern-image {
+            transform: scale(1.05);
+        }
+
+        .culture-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            z-index: 2;
+        }
+
+        .culture-chinese {
+            background-color: var(--chinese-red);
+        }
+
+        .culture-indonesia {
+            background-color: var(--indonesia-brown);
+        }
+
+        .pattern-info {
+            padding: 20px;
+        }
+
+        .pattern-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+            height: 50px;
+            overflow: hidden;
+        }
+
+        .pattern-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .pattern-type {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .pattern-meaning {
+            font-size: 14px;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            line-height: 1.6;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .pattern-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .pattern-tag {
+            background-color: var(--light-color);
+            color: var(--text-color);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* ========== Product Card ========== */
+        .product-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(43, 139, 90, 0.2);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--product-color), #4caf50);
+        }
+
+        .product-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            background-color: var(--light-color);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+            padding: 10px;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+            height: 50px;
+            overflow: hidden;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .product-category {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            line-height: 1.6;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .product-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .product-tag {
+            background-color: #e8f5e9;
+            color: var(--product-color);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            border: 1px solid #c8e6c9;
+        }
+
+        /* ========== Stats Bar ========== */
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+            color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 40px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--accent-color);
+            margin-top: 5px;
+        }
+
+        /* ========== Footer ========== */
+        footer {
+            background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .footer-desc {
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .copyright {
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 167, 106, 0.3);
+            color: var(--accent-color);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 32px;
+            }
+
+            .page-subtitle {
+                font-size: 16px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-button {
+                width: 90%;
+                justify-content: center;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pattern-card, .product-card {
+                margin: 0 auto;
+                max-width: 400px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .stats-bar {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="container">
+            <h1 class="page-title">Xie Xiang Yun · Intelligent Pattern Platform</h1>
+            <p class="page-subtitle">Innovative Fusion of Traditional Chinese Patterns and Indonesian Muslim Geometric Art</p>
+
+            <!-- Navigation Buttons -->
+            <div class="nav-buttons">
+                <a href="/combinations" class="nav-button">
+                    <span class="nav-button-icon">🧬</span>
+                    Intelligent Combination Matching
+                </a>
+                <a href="/patterns" class="nav-button">
+                    <span class="nav-button-icon">🎨</span>
+                    Browse All Patterns
+                </a>
+                <a href="/products" class="nav-button">
+                    <span class="nav-button-icon">🛍️</span>
+                    Browse All Products
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Statistics Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value" id="total-patterns">0</div>
+                <div class="stat-label">Pattern Designs</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="total-products">0</div>
+                <div class="stat-label">Products</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="total-herbs">0</div>
+                <div class="stat-label">Herbs</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="total-combinations">0</div>
+                <div class="stat-label">Combinations</div>
+            </div>
+        </div>
+
+        <!-- Featured Patterns Section -->
+        <div class="section-header">
+            <h2 class="section-title">
+                <span>🎨</span>
+                Featured Pattern Designs
+            </h2>
+            <a href="/patterns" class="view-all-link">View All Patterns →</a>
+        </div>
+
+        <div id="patterns-gallery" class="gallery-grid">
+            <!-- Pattern cards will be loaded dynamically via JavaScript -->
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                <p style="font-size: 16px; color: #8b5a2b;">Loading patterns...</p>
+            </div>
+        </div>
+
+        <!-- Featured Products Section -->
+        <div class="section-header">
+            <h2 class="section-title">
+                <span>🛍️</span>
+                Featured Products
+            </h2>
+            <a href="/products" class="view-all-link">View All Products →</a>
+        </div>
+
+        <div id="products-gallery" class="gallery-grid">
+            <!-- Product cards will be loaded dynamically via JavaScript -->
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                <p style="font-size: 16px; color: #8b5a2b;">Loading products...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Xie Xiang Yun</div>
+                <p class="footer-desc">Preserving Eastern aesthetics, fusing traditional patterns with herbal wisdom, creating cultural innovation designs.</p>
+                <div class="copyright">
+                    <p>© 2023 Xie Xiang Yun · Intelligent Pattern Platform | Tradition & Innovation · Digital Heritage of Eastern Aesthetics</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Load patterns and products after page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPatternsGallery();
+            loadProductsGallery();
+            loadStats();
+        });
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                // Load patterns
+                const patternsRes = await fetch('/api/patterns');
+                const patterns = await patternsRes.json();
+
+                // Load products
+                const productsRes = await fetch('/api/products');
+                const products = await productsRes.json();
+
+                // Load herbs
+                const herbsRes = await fetch('/api/herbs');
+                const herbs = await herbsRes.json();
+
+                // Update statistics
+                document.getElementById('total-patterns').textContent = patterns.length;
+                document.getElementById('total-products').textContent = products.length;
+                document.getElementById('total-herbs').textContent = herbs.length;
+
+                // Calculate combinations (pattern * herb)
+                const combinations = patterns.length * herbs.length;
+                document.getElementById('total-combinations').textContent = combinations;
+
+            } catch (error) {
+                console.error('Failed to load statistics:', error);
+            }
+        }
+
+        // Load pattern gallery
+        async function loadPatternsGallery() {
+            try {
+                console.log('Loading featured patterns...');
+                const response = await fetch('/api/patterns');
+                const patterns = await response.json();
+
+                // Show only first 6 patterns as featured
+                const featuredPatterns = patterns.slice(0, 6);
+
+                console.log('Featured patterns data:', featuredPatterns);
+                const gallery = document.getElementById('patterns-gallery');
+                gallery.innerHTML = '';
+
+                featuredPatterns.forEach(pattern => {
+                    const card = document.createElement('div');
+                    card.className = 'pattern-card';
+
+                    // Build image URL
+                    const imageUrl = `/data/patterns/${encodeURIComponent(pattern.image)}`;
+
+                    // Culture label
+                    const cultureClass = pattern.culture === 'chinese' ? 'culture-chinese' : 'culture-indonesia';
+                    const cultureText = pattern.culture === 'chinese' ? '🇨🇳 Chinese' : '🇮🇩 Indonesian';
+
+                    // Pattern tags (first 3)
+                    const tags = pattern.style_tags ? pattern.style_tags.slice(0, 3) : [];
+
+                    card.innerHTML = `
+                        <div class="pattern-image-container">
+                            <span class="culture-badge ${cultureClass}">${cultureText}</span>
+                            <img src="${imageUrl}" alt="${pattern.name}" class="pattern-image"
+                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300/${pattern.culture === 'chinese' ? 'C03A2B' : '7A5230'}/FFFFFF?text=${encodeURIComponent(pattern.name.substring(0, 10))}'">
+                        </div>
+                        <div class="pattern-info">
+                            <h3 class="pattern-name">${pattern.name}</h3>
+                            <div class="pattern-meta">
+                                <span class="pattern-type">${pattern.type || 'Traditional Pattern'}</span>
+                            </div>
+                            <p class="pattern-meaning">${pattern.meaning || 'Traditional pattern with deep meaning'}</p>
+                            <div class="pattern-tags">
+                                ${tags.map(tag => `<span class="pattern-tag">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+
+                    // Click to view details
+                    card.addEventListener('click', function() {
+                        showPatternDetail(pattern);
+                    });
+
+                    gallery.appendChild(card);
+                });
+
+                console.log('Patterns loaded successfully');
+            } catch (error) {
+                console.error('Failed to load patterns:', error);
+                document.getElementById('patterns-gallery').innerHTML =
+                    '<div style="grid-column: 1 / -1; text-align: center; padding: 40px;">' +
+                    '<p style="color: #c03a2b; font-size: 16px;">Failed to load patterns. Please check server connection.</p>' +
+                    '</div>';
+            }
+        }
+
+        // Load product gallery
+        async function loadProductsGallery() {
+            try {
+                console.log('Loading featured products...');
+                const response = await fetch('/api/products');
+                const products = await response.json();
+
+                // Show only first 6 products as featured
+                const featuredProducts = products.slice(0, 6);
+
+                console.log('Featured products data:', featuredProducts);
+                const gallery = document.getElementById('products-gallery');
+                gallery.innerHTML = '';
+
+                featuredProducts.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+
+                    // Build image URL (use first image)
+                    const imageUrl = product.images && product.images.length > 0
+                        ? `/data/products/${encodeURIComponent(product.images[0])}`
+                        : 'https://via.placeholder.com/400x300/2b8b5a/FFFFFF?text=Product';
+
+                    // Product tags (first 3)
+                    const tags = product.tags ? product.tags.slice(0, 3) : [];
+
+                    card.innerHTML = `
+                        <div class="product-image-container">
+                            <img src="${imageUrl}" alt="${product.name}" class="product-image"
+                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300/2b8b5a/FFFFFF?text=${encodeURIComponent(product.name.substring(0, 10))}'">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">${product.name}</h3>
+                            <div class="product-meta">
+                                <span class="product-category">${product.category || 'Product'}</span>
+                            </div>
+                            <p class="product-description">${product.description || 'Beautiful product featuring traditional patterns'}</p>
+                            <div class="product-tags">
+                                ${tags.map(tag => `<span class="product-tag">${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                    `;
+
+                    // Click to view details
+                    card.addEventListener('click', function() {
+                        showProductDetail(product);
+                    });
+
+                    gallery.appendChild(card);
+                });
+
+                console.log('Products loaded successfully');
+            } catch (error) {
+                console.error('Failed to load products:', error);
+                document.getElementById('products-gallery').innerHTML =
+                    '<div style="grid-column: 1 / -1; text-align: center; padding: 40px;">' +
+                    '<p style="color: #c03a2b; font-size: 16px;">Failed to load products. Please check server connection.</p>' +
+                    '</div>';
+            }
+        }
+
+        // Show pattern detail popup
+        function showPatternDetail(pattern) {
+            const imageUrl = `/data/patterns/${encodeURIComponent(pattern.image)}`;
+            const detailHTML = `
+                <div id="pattern-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 20px;">
+                    <div style="background: white; padding: 30px; border-radius: 12px; max-width: 800px; max-height: 90%; overflow-y: auto; width: 100%; border: 2px solid #c9a87c;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #e6c9a8; padding-bottom: 15px;">
+                            <h2 style="margin: 0; color: #3a2611;">${pattern.name}</h2>
+                            <button onclick="document.getElementById('pattern-modal').remove()"
+                                    style="background: #c03a2b; color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;">Close</button>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 30px;">
+                            <div style="flex: 1; min-width: 300px;">
+                                <img src="${imageUrl}" alt="${pattern.name}" style="width: 100%; height: auto; max-height: 400px; object-fit: contain; border-radius: 8px; border: 1px solid #c9a87c; padding: 10px; background: #f8f3eb;" />
+                            </div>
+                            <div style="flex: 1; min-width: 300px;">
+                                <h4 style="color: #8b5a2b; margin-bottom: 15px;">Pattern Information</h4>
+                                <p><strong>Culture:</strong> <span style="background: ${pattern.culture === 'chinese' ? '#c03a2b' : '#7a5230'}; color: white; padding: 2px 10px; border-radius: 12px; font-size: 12px;">${pattern.culture === 'chinese' ? 'Chinese' : 'Indonesian'}</span></p>
+                                <p><strong>Type:</strong> ${pattern.type || 'Traditional Pattern'}</p>
+                                <p><strong>Meaning:</strong> ${pattern.meaning || 'Traditional pattern with deep meaning'}</p>
+                                <p><strong>Elements:</strong> ${(pattern.elements || []).join(', ')}</p>
+                                <p><strong>Main Colors:</strong> ${(pattern.colors || []).join(', ')}</p>
+                                <p><strong>Style Tags:</strong> ${(pattern.style_tags || []).join(', ')}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Remove existing modal
+            const existingModal = document.getElementById('pattern-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            document.body.insertAdjacentHTML('beforeend', detailHTML);
+        }
+
+        // Show product detail popup (已移除View Pattern链接)
+        function showProductDetail(product) {
+            // 检查是否有多个图片
+            const hasMultipleImages = product.images && product.images.length > 1;
+
+            // 创建图片部分的HTML
+            let imagesHTML = '';
+
+            if (hasMultipleImages) {
+                // 显示多张图片的轮播
+                imagesHTML = `
+                    <div style="margin-bottom: 20px;">
+                        <div style="
+                            display: flex;
+                            overflow-x: auto;
+                            gap: 15px;
+                            padding-bottom: 10px;
+                            scroll-behavior: smooth;
+                        " id="product-images-carousel">
+                            ${product.images.map((img, index) => `
+                                <img src="/data/products/${encodeURIComponent(img)}"
+                                     alt="${product.name} - Image ${index + 1}"
+                                     style="
+                                        width: 200px;
+                                        height: 150px;
+                                        object-fit: contain;
+                                        border-radius: 8px;
+                                        border: 2px solid ${index === 0 ? '#2b8b5a' : '#c8e6c9'};
+                                        padding: 5px;
+                                        background: #f1f8e9;
+                                        cursor: pointer;
+                                        flex-shrink: 0;
+                                     "
+                                     onclick="setMainProductImage(this, '#2b8b5a')">
+                            `).join('')}
+                        </div>
+                        <div style="text-align: center; margin-top: 10px; color: #666; font-size: 12px;">
+                            ${product.images.length} images - Click to view larger
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <img src="/data/products/${encodeURIComponent(product.images[0])}"
+                             alt="${product.name}"
+                             id="main-product-image"
+                             style="
+                                width: 100%;
+                                max-height: 400px;
+                                object-fit: contain;
+                                border-radius: 8px;
+                                border: 2px solid #2b8b5a;
+                                padding: 10px;
+                                background: #f1f8e9;
+                             ">
+                    </div>
+                `;
+            } else {
+                // 只有一张图片
+                const imageUrl = product.images && product.images.length > 0
+                    ? `/data/products/${encodeURIComponent(product.images[0])}`
+                    : 'https://via.placeholder.com/400x300/2b8b5a/FFFFFF?text=Product';
+
+                imagesHTML = `
+                    <img src="${imageUrl}"
+                         alt="${product.name}"
+                         style="
+                            width: 100%;
+                            height: auto;
+                            max-height: 400px;
+                            object-fit: contain;
+                            border-radius: 8px;
+                            border: 1px solid #c8e6c9;
+                            padding: 10px;
+                            background: #f1f8e9;
+                         ">
+                `;
+            }
+
+            const detailHTML = `
+                <div id="product-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 20px;">
+                    <div style="background: white; padding: 30px; border-radius: 12px; max-width: 900px; max-height: 90%; overflow-y: auto; width: 100%; border: 2px solid #2b8b5a;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #c8e6c9; padding-bottom: 15px;">
+                            <h2 style="margin: 0; color: #3a2611;">${product.name}</h2>
+                            <button onclick="document.getElementById('product-modal').remove()"
+                                    style="background: #2b8b5a; color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;">Close</button>
+                        </div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 30px;">
+                            <div style="flex: 1; min-width: 300px;">
+                                ${imagesHTML}
+                            </div>
+                            <div style="flex: 1; min-width: 300px;">
+                                <h4 style="color: #2b8b5a; margin-bottom: 15px;">Product Information</h4>
+                                <p><strong>Category:</strong> ${product.category || 'General'}</p>
+                                <p><strong>Description:</strong> ${product.description || 'Beautiful product featuring traditional patterns'}</p>
+                                ${product.subcategory ? `<p><strong>Subcategory:</strong> ${product.subcategory}</p>` : ''}
+                                <p><strong>Colors:</strong> ${(product.colors || []).join(', ')}</p>
+                                <p><strong>Sizes:</strong> ${(product.sizes || []).join(', ')}</p>
+                                <p><strong>Materials:</strong> ${(product.materials || []).join(', ')}</p>
+                                <p><strong>Tags:</strong> ${(product.tags || []).join(', ')}</p>
+                                ${product.status ? `<p><strong>Status:</strong> ${product.status === 'in_stock' ? '✅ In Stock' : '❌ Out of Stock'}</p>` : ''}
+
+                                ${product.pattern_details ? `
+                                    <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                                        <h4 style="color: #8b5a2b; margin-bottom: 10px;">Pattern Details</h4>
+                                        <p><strong>Pattern:</strong> ${product.pattern_details.name}</p>
+                                        <p><strong>Culture:</strong> ${product.pattern_details.culture === 'chinese' ? 'Chinese' : 'Muslim/Indonesian'}</p>
+                                        <p><strong>Meaning:</strong> ${product.pattern_details.meaning || ''}</p>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const existingModal = document.getElementById('product-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            document.body.insertAdjacentHTML('beforeend', detailHTML);
+        }
+
+        // 添加这个函数来处理产品图片缩略图点击
+        function setMainProductImage(thumbImg, borderColor) {
+            const mainImg = document.getElementById('main-product-image');
+            if (mainImg) {
+                mainImg.src = thumbImg.src;
+                mainImg.style.borderColor = borderColor;
+            }
+
+            // 更新所有缩略图的边框
+            const allThumbs = document.querySelectorAll('#product-images-carousel img');
+            allThumbs.forEach(img => {
+                img.style.borderColor = '#c8e6c9';
+                img.style.borderWidth = '2px';
+            });
+
+            // 设置当前选中的缩略图边框
+            thumbImg.style.borderColor = borderColor;
+            thumbImg.style.borderWidth = '3px';
+        }
+    </script>
+</body>
+</html>

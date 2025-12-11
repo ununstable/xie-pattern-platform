@@ -1,0 +1,196 @@
+[
+
+  {
+    "name": "Headdress Winged Horse Pattern Scarf",
+    "category": "fashion",
+    "subcategory": "scarf",
+    "description": "Premium silk scarf featuring the Headdress Winged Horse pattern",
+    "images": [
+        "头巾翼马纹（马年款）_page-0001.jpg",
+        "头巾.jpg"
+    ],
+    "colors": ["Red", "Gold", "Blue"],
+    "sizes": ["90x90cm"],
+    "materials": ["100% Silk"],
+    "tags": ["luxury", "traditional", "handmade"],
+    "status": "in_stock",
+    "pattern_details": {
+        "name": "Headdress Winged Horse Pattern",
+        "image": "头巾翼马纹（马年款）_page-0001.jpg",
+        "culture": "chinese",
+        "type": "Animal Pattern",
+        "meaning": "Auspicious for the Year of the Horse, soaring high",
+        "elements": ["Horse", "Wings", "Headdress"],
+        "style_tags": ["Traditional", "Auspicious", "Animal"],
+        "description": "Traditional pattern combining horse and wing elements, symbolizing speed and strength",
+        "category": "animal_patterns",
+        "origin": "Chinese Traditional",
+        "significance": "Symbolizes auspiciousness for the Year of the Horse"
+    }
+},
+
+
+
+  {
+  "name": "Deer and Floral Pattern Scarf",
+  "category": "fashion",
+  "subcategory": "scarf",
+  "description": "Light purple base with white deer and floral pattern. The design features curved plant motifs and abstract lines, presenting a soft decorative style with gentle color tones, perfect for daily gentle outfits.",
+  "images":
+    ["一鹿生花.png"],
+
+  "colors": ["Light Purple", "White"],
+  "sizes": ["90x90cm"],
+  "materials": ["100% Mulberry Silk"],
+  "tags": ["gentle", "daily", "retro", "ethnic", "low-saturation", "versatile"],
+  "status": "in_stock",
+  "pattern_details": {
+    "name": "Deer and Floral Pattern",
+    "image": "deer_floral_pattern.png",
+    "culture": "chinese",
+    "type": "Plant and Animal Combination Pattern",
+    "meaning": "Deer symbolizes auspiciousness and longevity, combined with flowers implying vitality and beauty",
+    "elements": ["Deer", "Flowers", "Curled vine pattern", "Abstract lines"],
+    "style_tags": ["Soft", "Decorative", "Retro", "Ethnic", "Lightweight"],
+    "description": "A soft pattern design combining deer and floral elements with smooth curved lines and gentle color tones, presenting a low-saturation gentle style",
+    "category": "natural_patterns",
+    "origin": "Innovative design of traditional Chinese auspicious patterns",
+    "significance": "Symbolizes auspiciousness, vitality and good wishes, suitable for gentle and fresh daily wear"
+  }
+},
+  {
+    "name": "Cloud-style Ruyi Pattern Scarf",
+    "category": "fashion",
+    "subcategory": "scarf",
+    "description": "Luxury silk scarf featuring the Cloud-style Ruyi pattern symbolizing auspicious wishes and good fortune",
+    "images":
+      ["云式如意纹.jpg"],
+
+    "colors": ["White", "Gold", "Blue"],
+    "sizes": ["90x90cm"],
+    "materials": ["100% Silk"],
+    "tags": ["auspicious", "traditional", "elegant"],
+    "status": "in_stock",
+    "pattern_details": {
+      "name": "Cloud-style Ruyi Pattern",
+      "image": "云式如意纹.jpg",
+      "culture": "chinese",
+      "type": "Symbolic Pattern",
+      "meaning": "Clouds symbolize auspiciousness and Ruyi symbolizes wishes coming true",
+      "elements": ["Clouds", "Ruyi scepter shapes"],
+      "style_tags": ["Symbolic", "Auspicious", "Traditional"],
+      "description": "A traditional Chinese pattern combining cloud motifs with Ruyi shapes, representing good fortune and wishes being fulfilled",
+      "category": "symbolic_patterns",
+      "origin": "Chinese Traditional",
+      "significance": "Symbolizes auspicious clouds and the fulfillment of wishes"
+    }
+  },
+  {
+    "name": "Hui Pattern Wall Art",
+    "category": "home_living",
+    "subcategory": "wall_decor",
+    "description": "Elegant canvas art featuring the traditional Hui pattern symbolizing continuity and eternity",
+    "images":
+      ["回纹.jpg"],
+
+    "colors": ["Black", "Gold", "Red"],
+    "sizes": ["60x90cm"],
+    "materials": ["Canvas", "Wooden Frame"],
+    "tags": ["geometric", "traditional", "decorative"],
+    "status": "in_stock",
+    "pattern_details": {
+      "name": "Hui Pattern",
+      "image": "回纹.jpg",
+      "culture": "chinese",
+      "type": "Geometric Pattern",
+      "meaning": "Symbolizes continuity, eternity, and unbroken cycles",
+      "elements": ["Square spirals", "Continuous lines"],
+      "style_tags": ["Geometric", "Continuous", "Traditional"],
+      "description": "One of the oldest Chinese geometric patterns consisting of squared spirals, representing endless continuity",
+      "category": "geometric_patterns",
+      "origin": "Chinese Bronze Age",
+      "significance": "Represents the concept of infinity and eternal continuity"
+    }
+  },
+  {
+    "name": "Lingzhi-style Ruyi Pattern Cushion Cover",
+    "category": "home_living",
+    "subcategory": "home_textile",
+    "description": "Premium cotton cushion cover with Lingzhi-style Ruyi pattern symbolizing longevity and good fortune",
+    "images":
+      ["灵芝式如意纹.jpg"],
+
+    "colors": ["Red", "Gold", "Green"],
+    "sizes": ["45x45cm"],
+    "materials": ["100% Cotton"],
+    "tags": ["auspicious", "longevity", "home decor"],
+    "status": "in_stock",
+    "pattern_details": {
+      "name": "Lingzhi-style Ruyi Pattern",
+      "image": "灵芝式如意纹.jpg",
+      "culture": "chinese",
+      "type": "Plant Pattern",
+      "meaning": "Lingzhi mushroom symbolizes longevity and immortality, combined with Ruyi for good fortune",
+      "elements": ["Lingzhi mushrooms", "Ruyi shapes"],
+      "style_tags": ["Symbolic", "Longevity", "Traditional"],
+      "description": "A pattern combining the auspicious Lingzhi mushroom (symbol of longevity) with Ruyi shapes (symbol of wishes fulfilled)",
+      "category": "plant_patterns",
+      "origin": "Chinese Traditional",
+      "significance": "Symbolizes longevity, immortality, and good fortune"
+    }
+  },
+  {
+    "name": "Intertwined Branch Pattern Table Runner",
+    "category": "home_living",
+    "subcategory": "home_textile",
+    "description": "Elegant linen table runner with traditional Intertwined Branch pattern symbolizing growth and continuity",
+    "images":
+      ["缠枝纹.png"],
+
+    "colors": ["Beige", "Brown", "Gold"],
+    "sizes": ["30x150cm"],
+    "materials": ["100% Linen"],
+    "tags": ["traditional", "natural", "decorative"],
+    "status": "in_stock",
+    "pattern_details": {
+      "name": "Intertwined Branch Pattern",
+      "image": "缠枝纹.png",
+      "culture": "chinese",
+      "type": "Plant Pattern",
+      "meaning": "Symbolizes continuous growth, longevity, and interconnectedness",
+      "elements": ["Intertwined vines", "Leaves", "Flowers"],
+      "style_tags": ["Organic", "Continuous", "Traditional"],
+      "description": "A classic Chinese pattern featuring vines or branches intertwining with leaves and flowers, representing eternal life and growth",
+      "category": "plant_patterns",
+      "origin": "Chinese Traditional",
+      "significance": "Symbolizes the continuous cycle of life and interconnectedness"
+    }
+  },
+  {
+    "name": "Diamond Grid Pattern Coaster Set",
+    "category": "home_living",
+    "subcategory": "tableware",
+    "description": "Set of 6 ceramic coasters with Diamond Grid pattern, combining traditional design with modern functionality",
+    "images":
+      ["菱形格纹.png"],
+
+    "colors": ["White", "Black", "Gold"],
+    "sizes": ["10x10cm each"],
+    "materials": ["Ceramic", "Cork backing"],
+    "tags": ["geometric", "modern", "functional"],
+    "status": "in_stock",
+    "pattern_details": {
+      "name": "Diamond Grid Pattern",
+      "image": "菱形格纹.png",
+      "culture": "chinese",
+      "type": "Geometric Pattern",
+      "meaning": "Represents stability, order, and protection",
+      "elements": ["Diamonds", "Grid lines", "Intersections"],
+      "style_tags": ["Geometric", "Orderly", "Structural"],
+      "description": "A traditional geometric pattern consisting of interconnected diamond shapes forming a protective grid",
+      "category": "geometric_patterns",
+      "origin": "Chinese Traditional",
+      "significance": "Symbolizes stability, protection, and cosmic order"
+    }
+  }
+]

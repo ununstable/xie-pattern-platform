@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products - Smart Pattern Platform</title>
+    <style>
+        :root {
+            --primary-color: #8b5a2b;
+            --secondary-color: #d4a76a;
+            --accent-color: #e6c9a8;
+            --light-color: #f8f3eb;
+            --dark-color: #3a2611;
+            --product-color: #2b8b5a;
+            --border-color: #c9a87c;
+            --border-radius: 8px;
+            --shadow: 0 6px 16px rgba(58, 38, 17, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--accent-color);
+        }
+
+        /* Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        /* Product Card */
+        .product-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(43, 139, 90, 0.2);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--product-color), #4caf50);
+        }
+
+        .product-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+            background-color: var(--light-color);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+            padding: 10px;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+            height: 50px;
+            overflow: hidden;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .product-category {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            line-height: 1.6;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .product-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .product-tag {
+            background-color: #e8f5e9;
+            color: var(--product-color);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            border: 1px solid #c8e6c9;
+        }
+
+        /* Stats */
+        .stats {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 16px;
+            color: var(--dark-color);
+        }
+
+        /* No products message */
+        .no-products {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 50px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        /* 模态框样式 */
+        #product-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 900px;
+            max-height: 90%;
+            overflow-y: auto;
+            width: 100%;
+            border: 2px solid var(--product-color);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 15px;
+        }
+
+        .modal-title {
+            margin: 0;
+            color: var(--dark-color);
+            font-size: 24px;
+        }
+
+        .close-btn {
+            background: var(--product-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: #1e6b47;
+            transform: scale(1.05);
+        }
+
+        .modal-body {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .modal-images {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .modal-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .modal-images h4, .modal-info h4 {
+            color: var(--product-color);
+            margin-bottom: 15px;
+        }
+
+        /* 轮播样式 */
+        .carousel-container {
+            margin-bottom: 20px;
+        }
+
+        .carousel-thumbnails {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding-bottom: 10px;
+            scroll-behavior: smooth;
+        }
+
+        .carousel-thumbnail {
+            width: 120px;
+            height: 90px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 2px solid #c8e6c9;
+            padding: 5px;
+            background: #f1f8e9;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-thumbnail:hover {
+            transform: scale(1.05);
+        }
+
+        .carousel-thumbnail.active {
+            border-color: var(--product-color);
+            border-width: 3px;
+        }
+
+        .carousel-caption {
+            text-align: center;
+            margin-top: 10px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .main-image-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .main-product-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 2px solid var(--product-color);
+            padding: 10px;
+            background: #f1f8e9;
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-body {
+                flex-direction: column;
+            }
+
+            .carousel-thumbnail {
+                width: 100px;
+                height: 75px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Home</a>
+
+        <div class="page-header">
+            <h1 class="page-title">🛍️ All Products</h1>
+            <p class="page-subtitle">Browse our collection of products featuring traditional patterns</p>
+        </div>
+
+        <div class="stats">
+            Total <span id="product-count">0</span> products available
+        </div>
+
+        <div id="products-container" class="gallery">
+            <!-- Products will be loaded dynamically via JavaScript -->
+            <div class="no-products">
+                <p style="font-size: 18px; color: #999;">Loading products...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load products when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllProducts();
+        });
+
+        async function loadAllProducts() {
+            try {
+                const response = await fetch('/api/products');
+                const products = await response.json();
+
+                // Update count
+                document.getElementById('product-count').textContent = products.length;
+
+                // Render all products
+                renderProducts(products);
+
+            } catch (error) {
+                console.error('Failed to load products:', error);
+                document.getElementById('products-container').innerHTML =
+                    '<div class="no-products">' +
+                    '<p style="color: #c03a2b; font-size: 16px;">Failed to load products. Please check server connection.</p>' +
+                    '<button onclick="loadAllProducts()" style="background: var(--product-color); color: white; border: none; padding: 10px 20px; border-radius: var(--border-radius); margin-top: 20px; cursor: pointer;">Retry</button>' +
+                    '</div>';
+            }
+        }
+
+        function renderProducts(products) {
+            const container = document.getElementById('products-container');
+
+            if (products.length === 0) {
+                container.innerHTML = '<div class="no-products"><p>No products available at the moment.</p></div>';
+                return;
+            }
+
+            container.innerHTML = '';
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+
+                // Build image URL (use first image)
+                const imageUrl = product.images && product.images.length > 0
+                    ? `/data/products/${encodeURIComponent(product.images[0])}`
+                    : 'https://via.placeholder.com/400x300/2b8b5a/FFFFFF?text=Product';
+
+                // Product tags (first 3)
+                const tags = product.tags ? product.tags.slice(0, 3) : [];
+
+                card.innerHTML = `
+                    <div class="product-image-container">
+                        <img src="${imageUrl}" alt="${product.name}" class="product-image"
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300/2b8b5a/FFFFFF?text=${encodeURIComponent(product.name.substring(0, 10))}'">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">${product.name}</h3>
+                        <div class="product-meta">
+                            <span class="product-category">${product.category || 'Product'}</span>
+                        </div>
+                        <p class="product-description">${product.description || 'Beautiful product featuring traditional patterns'}</p>
+                        <div class="product-tags">
+                            ${tags.map(tag => `<span class="product-tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+
+                // Click to view details
+                card.addEventListener('click', function() {
+                    showProductDetail(product);
+                });
+
+                container.appendChild(card);
+            });
+
+            // Update count
+            document.getElementById('product-count').textContent = products.length;
+        }
+
+        // Show product detail with image carousel
+        function showProductDetail(product) {
+            // 检查是否有多个图片
+            const hasMultipleImages = product.images && product.images.length > 1;
+
+            // 创建图片部分的HTML
+            let imagesHTML = '';
+
+            if (hasMultipleImages) {
+                // 显示多张图片的轮播
+                imagesHTML = `
+                    <div class="carousel-container">
+                        <div class="carousel-thumbnails" id="product-images-carousel">
+                            ${product.images.map((img, index) => `
+                                <img src="/data/products/${encodeURIComponent(img)}"
+                                     alt="${product.name} - Image ${index + 1}"
+                                     class="carousel-thumbnail ${index === 0 ? 'active' : ''}"
+                                     data-index="${index}"
+                                     onclick="setMainProductImage(this, '${index}')">
+                            `).join('')}
+                        </div>
+                        <div class="carousel-caption">
+                            ${product.images.length} images - Click thumbnail to view larger
+                        </div>
+                    </div>
+                    <div class="main-image-container">
+                        <img src="/data/products/${encodeURIComponent(product.images[0])}"
+                             alt="${product.name}"
+                             id="main-product-image"
+                             class="main-product-image">
+                    </div>
+                `;
+            } else {
+                // 只有一张图片
+                const imageUrl = product.images && product.images.length > 0
+                    ? `/data/products/${encodeURIComponent(product.images[0])}`
+                    : 'https://via.placeholder.com/400x300/2b8b5a/FFFFFF?text=Product';
+
+                imagesHTML = `
+                    <div class="main-image-container">
+                        <img src="${imageUrl}"
+                             alt="${product.name}"
+                             class="main-product-image">
+                    </div>
+                `;
+            }
+
+            const detailHTML = `
+                <div id="product-modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">${product.name}</h2>
+                            <button class="close-btn" onclick="closeProductModal()">Close</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-images">
+                                ${imagesHTML}
+                            </div>
+                            <div class="modal-info">
+                                <h4>Product Information</h4>
+                                <p><strong>Category:</strong> ${product.category || 'General'}</p>
+                                <p><strong>Description:</strong> ${product.description || 'Beautiful product featuring traditional patterns'}</p>
+                                ${product.subcategory ? `<p><strong>Subcategory:</strong> ${product.subcategory}</p>` : ''}
+                                <p><strong>Colors:</strong> ${(product.colors || []).join(', ') || 'Not specified'}</p>
+                                <p><strong>Sizes:</strong> ${(product.sizes || []).join(', ') || 'Not specified'}</p>
+                                <p><strong>Materials:</strong> ${(product.materials || []).join(', ') || 'Not specified'}</p>
+                                <p><strong>Tags:</strong> ${(product.tags || []).join(', ') || 'No tags'}</p>
+                                ${product.status ? `<p><strong>Status:</strong> ${product.status === 'in_stock' ? '✅ In Stock' : '❌ Out of Stock'}</p>` : ''}
+
+                                ${product.pattern_details ? `
+                                    <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e0e0e0;">
+                                        <h4 style="color: var(--primary-color); margin-bottom: 10px;">Pattern Details</h4>
+                                        <p><strong>Pattern:</strong> ${product.pattern_details.name}</p>
+                                        <p><strong>Culture:</strong> ${product.pattern_details.culture === 'chinese' ? 'Chinese 🇨🇳' : 'Muslim/Indonesian 🇮🇩'}</p>
+                                        ${product.pattern_details.meaning ? `<p><strong>Meaning:</strong> ${product.pattern_details.meaning}</p>` : ''}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // 移除现有的模态框
+            const existingModal = document.getElementById('product-modal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            document.body.insertAdjacentHTML('beforeend', detailHTML);
+        }
+
+        // 处理产品图片缩略图点击
+        function setMainProductImage(thumbImg, index) {
+            const mainImg = document.getElementById('main-product-image');
+            if (mainImg) {
+                mainImg.src = thumbImg.src;
+                mainImg.alt = thumbImg.alt;
+            }
+
+            // 更新所有缩略图的边框
+            const allThumbs = document.querySelectorAll('.carousel-thumbnail');
+            allThumbs.forEach(img => {
+                img.classList.remove('active');
+            });
+
+            // 设置当前选中的缩略图边框
+            thumbImg.classList.add('active');
+        }
+
+        // 关闭模态框
+        function closeProductModal() {
+            const modal = document.getElementById('product-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // ESC键关闭模态框
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeProductModal();
+            }
+        });
+    </script>
+</body>
+</html>
